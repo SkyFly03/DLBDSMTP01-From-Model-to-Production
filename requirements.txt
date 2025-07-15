@@ -1,0 +1,21 @@
+# Core dependencies
+flask
+torch
+torchvision
+pandas
+scikit-learn
+Pillow
+
+# MLflow logging (optional but recommended)
+mlflow
+
+# Visualization tools
+matplotlib
+seaborn
+
+# FastAPI test alternative (if used)
+# fastapi
+# uvicorn
+
+# Optional: PostgreSQL support if used
+# psycopg2-binary

@@ -1,0 +1,33 @@
+# docker-compose.yml
+# ----------------------------------------------------
+# Sets up the Flask API with a PostgreSQL backend.
+# Enables local testing and scaling using Docker Compose.
+# ----------------------------------------------------
+
+version: '3.9'
+
+services:
+  api:
+    build: .
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: refunds
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+
+  db:
+    image: postgres:14
+    environment:
+      POSTGRES_DB: refunds
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:

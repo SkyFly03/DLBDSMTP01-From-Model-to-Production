@@ -1,0 +1,24 @@
+# General
+*.log
+*.zip
+*.tar.gz
+*.rar
+.DS_Store
+Thumbs.db
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Virtual environments
+venv/
+.env/
+.venv/
+
+# Optional: static files or test assets
+static/
+
