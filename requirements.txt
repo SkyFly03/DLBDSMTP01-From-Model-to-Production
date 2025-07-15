@@ -1,21 +1,12 @@
-# Core dependencies
+# Required Python packages for this project:
+
 flask
 torch
 torchvision
 pandas
 scikit-learn
 Pillow
-
-# MLflow logging (optional but recommended)
 mlflow
-
-# Visualization tools
 matplotlib
 seaborn
-
-# FastAPI test alternative (if used)
-# fastapi
-# uvicorn
-
-# Optional: PostgreSQL support if used
-# psycopg2-binary
+psycopg2-binary
