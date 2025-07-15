@@ -25,3 +25,5 @@ venv/
 # Optional: static files or test assets
 static/
 
+# Ignore large model weight files (tracked with Git LFS or kept locally only)
+refund_classifier_final.pt
