@@ -1,1 +1,1 @@
-*.pt filter=lfs diff=lfs merge=lfs -text
+# No LFS used in final version. File left intentionally empty.
