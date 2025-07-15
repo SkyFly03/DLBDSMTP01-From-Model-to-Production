@@ -2,6 +2,7 @@
 # ----------------------------------------------------
 # Sets up the Flask API with a PostgreSQL backend.
 # Enables local testing and scaling using Docker Compose.
+# Uses a shared .env file to securely load credentials.
 # ----------------------------------------------------
 
 version: '3.9'
@@ -10,24 +11,18 @@ services:
   api:
     build: .
     ports:
-      - "5000:5000"
+      - "5000:5000"  # Maps container port 5000 to host port 5000
     depends_on:
-      - db
-    environment:
-      DB_HOST: db
-      DB_PORT: 5432
-      DB_NAME: refunds
-      DB_USER: postgres
-      DB_PASSWORD: postgres
+      - db           # Ensures the database starts before the API
+    env_file:
+      - .env         # Loads environment variables from .env file
 
   db:
     image: postgres:14
-    environment:
-      POSTGRES_DB: refunds
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+    env_file:
+      - .env         # Loads DB name, user, password from .env file
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - pgdata:/var/lib/postgresql/data  # Persist PostgreSQL data
 
 volumes:
-  pgdata:
+  pgdata:  # Named volume for database storage

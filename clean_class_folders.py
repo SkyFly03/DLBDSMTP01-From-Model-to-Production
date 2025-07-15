@@ -1,21 +1,23 @@
-# clean_class_folders.py (VS Code / Windows version)
+# clean_class_folders.py
 # ----------------------------------------------------------
-# Strictly enforces class folder alignment between train/val.
-# Only retains folders that are shared and contain images.
+# Removes any class folders from train or val that do not
+# appear in both directories. Keeps only shared class folders.
 # ----------------------------------------------------------
 
-# clean_class_folders.py
 import os
 import shutil
 
-base_paths = ["data/full/train", "data/full/val"]
+train_path = "data/full/train"
+val_path = "data/full/val"
+base_paths = [train_path, val_path]
 
-shared_classes = sorted(set(os.listdir(base_paths[0])).intersection(os.listdir(base_paths[1])))
+train_classes = set(os.listdir(train_path))
+val_classes = set(os.listdir(val_path))
+shared_classes = sorted(train_classes.intersection(val_classes))
 
 for base in base_paths:
     for cls in os.listdir(base):
-        if cls not in shared_classes:
-            full_path = os.path.join(base, cls)
-            if os.path.isdir(full_path):
-                shutil.rmtree(full_path)
-                print(f"Removed: {full_path}")
+        full_path = os.path.join(base, cls)
+        if cls not in shared_classes and os.path.isdir(full_path):
+            shutil.rmtree(full_path)
+            print(f"Removed: {full_path}")
