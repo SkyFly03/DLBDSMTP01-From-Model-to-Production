@@ -14,6 +14,9 @@ __pycache__/
 # Jupyter
 .ipynb_checkpoints/
 
+# Ignore auto-generated metadata file
+project_metadata.json
+
 # Virtual environments
 venv/
 .env/
