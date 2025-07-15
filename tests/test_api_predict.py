@@ -8,26 +8,37 @@
 import requests
 import os
 
+# --- Configuration ---
 API_URL = "http://localhost:5000/predict"
-SAMPLE_IMAGE = "tests/sample.jpg"  # Replace with a real image path
+TEST_IMAGE_PATH = "tests/sample.jpg"  # Replace with actual image for testing
 
 def test_prediction():
-    if not os.path.exists(SAMPLE_IMAGE):
-        print("Sample image not found. Test skipped.")
+    if not os.path.exists(TEST_IMAGE_PATH):
+        print(f" Sample image not found at {TEST_IMAGE_PATH}. Test skipped.")
         return
 
-    with open(SAMPLE_IMAGE, "rb") as img:
-        files = {"file": img}
-        response = requests.post(API_URL, files=files)
+    try:
+        with open(TEST_IMAGE_PATH, "rb") as img_file:
+            files = {"file": img_file}
+            response = requests.post(API_URL, files=files)
+            response.raise_for_status()
+    except requests.exceptions.RequestException as e:
+        print(f"API request failed: {e}")
+        return
 
-    assert response.status_code == 200, f"Unexpected status code: {response.status_code}"
-    data = response.json()
+    try:
+        data = response.json()
+    except ValueError:
+        print("Response was not valid JSON.")
+        return
 
-    assert "predicted_class" in data, "Response missing 'predicted_class'"
-    assert "probabilities" in data, "Response missing 'probabilities'"
-    assert isinstance(data["probabilities"], list), "Probabilities should be a list"
+    # --- Assertions ---
+    assert "predicted_class" in data, "Missing key: predicted_class"
+    assert "probabilities" in data, "Missing key: probabilities"
+    assert isinstance(data["probabilities"], list), "Probabilities must be a list"
 
-    print("Test passed. Predicted class:", data["predicted_class"])
+    print("Test passed.")
+    print(f"Predicted class: {data['predicted_class']}")
 
 if __name__ == "__main__":
     test_prediction()

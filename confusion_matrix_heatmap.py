@@ -42,4 +42,8 @@ if __name__ == "__main__":
     # plot_confusion_matrix(model, val_loader)
     # Enables direct script execution to plot confusion matrix.
     # Useful for manual testing or isolated visual evaluation.
+<<<<<<< HEAD
     pass
+=======
+    pass
+>>>>>>> 55c67792c4aa74344f947def455eabe52e506d75

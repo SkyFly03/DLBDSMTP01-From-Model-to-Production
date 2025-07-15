@@ -64,6 +64,10 @@ def log_prediction(filename, prediction):
 # --- API route: /predict ---
 @app.route("/predict", methods=["POST"])
 def predict():
+    """
+    Accepts a POST request with an image file and returns a predicted class.
+    Logs the result to a PostgreSQL database.
+    """
     if "file" not in request.files:
         return jsonify({"error": "No file uploaded"}), 400
 
