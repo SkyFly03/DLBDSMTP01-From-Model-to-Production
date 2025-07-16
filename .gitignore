@@ -25,7 +25,7 @@ venv/
 .env/
 .venv/
 
-# Ignore large item list file
+# Ignore extracted dataset folders
 data/full/
 
 # Optional: static files or test assets
