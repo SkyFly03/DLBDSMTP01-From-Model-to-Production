@@ -22,6 +22,9 @@ venv/
 .env/
 .venv/
 
+# Ignore large item list file
+data/full/
+
 # Optional: static files or test assets
 static/
 
