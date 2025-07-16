@@ -15,24 +15,24 @@
 
 ## **2. Setup and Installation**
 
-### 2.1 Clone the repository
+### Clone the repository
 ```bash
 git clone https://github.com/SkyFly03/DLBDSMTP01-From-Model-to-Production.git
 cd DLBDSMTP01-From-Model-to-Production
 ```
 
-### 2.2 Create and activate a virtual environment
+### Create and activate a virtual environment
 ```bash
 python -m venv venv
 .\venv\Scripts\Activate.ps1
 ```
 
-### 2.3 Install dependencies
+### Install dependencies
 ```bash
 pip install -r requirements.txt
 ```
 
-### 2.4 Download dataset manually from Kaggle
+### Download dataset manually from Kaggle
 - Source: https://www.kaggle.com/datasets/paramaggarwal/fashion-product-images-dataset  
 - Place `styles.csv` in `data/full/`  
 
@@ -42,18 +42,18 @@ data/full/train/     # Training images
 data/full/val/       # Validation images  
 ```
 
-### 2.5 Prepare dataset
+### Prepare dataset
 - `make_full_set.py` — Filters and copies selected images  
 - `prepare_full_dataset.py` — Splits data into train/val  
 - `organize_by_class.py` — Sorts images by label  
 - `sync_class_folders.py` — Ensures consistent category folders
 
-### 2.6 Start PostgreSQL and REST API
+### Start PostgreSQL and REST API
 ```bash
 docker-compose up -d
 ```
 
-### 2.7 (Optional) Run test suite
+### (Optional) Run test suite
 ```bash
 python -m unittest tests/test_api_predict.py
 ```
