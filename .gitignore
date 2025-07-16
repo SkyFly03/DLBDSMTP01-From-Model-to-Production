@@ -1,10 +1,13 @@
 # General
 *.log
 *.zip
-*.tar.gz
 *.rar
 .DS_Store
 Thumbs.db
+
+# Ignore Docker image archives
+*.tar
+*.tar.gz
 
 # Python cache
 __pycache__/
