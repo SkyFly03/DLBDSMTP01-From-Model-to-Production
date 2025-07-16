@@ -7,6 +7,12 @@
 
 import os
 
+# Remove .gitkeep if it exists
+for split in ['train', 'val']:
+    gitkeep_path = os.path.join('data', 'full', split, '.gitkeep')
+    if os.path.isfile(gitkeep_path):
+        os.remove(gitkeep_path)
+        
 train_path = "data/full/train"
 val_path = "data/full/val"
 
