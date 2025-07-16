@@ -25,7 +25,7 @@ EPOCHS = 30
 LR = 0.001
 BATCH_SIZE = 32
 MODEL_PATH = "refund_classifier_final.pt"
-DATA_DIR = "/content/data/full"
+DATA_DIR = os.path.join('data', 'full')
 
 # --- LOGGING ---
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
