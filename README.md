@@ -61,27 +61,7 @@ python -m unittest tests/test_api_predict.py
 ---
 
 ## **3. Workflow Overview**
-
-```mermaid
-graph LR
-A[(**Download & Filter Images** *make_full_set.py*)]
---> B[(**Prepare Full Dataset** *prepare_full_dataset.py*)]
---> C[(**Organize by Class** *organize_by_class.py*)]
---> D[(**Sync Folders** *sync_class_folders.py*)]
---> E[(**Train Model: ResNet50** *train_model_full_set.py*)]
---> F[(**Save Model & Export Results**<br/>**Visualize & Monitor**<br/>_______<br/>*visualize_training_results.py* *confusion_matrix_heatmap.py*)]
---> G[(**Expose REST API**<br/>*app.py*<br/>_______<br/>**Batch Prediction** *batch_predict.py*)]
---> H[(**Log Results to PostgreSQL**)]
-
-style A fill:#fff9b1,stroke:#eec900,stroke-width:4px,font-size:28px
-style B fill:#ffe0a3,stroke:#ffb347,stroke-width:4px,font-size:28px
-style C fill:#ffbfa3,stroke:#ff7f50,stroke-width:4px,font-size:28px
-style D fill:#ffb1c1,stroke:#ff4f81,stroke-width:4px,font-size:28px
-style E fill:#e1b1ff,stroke:#b266ff,stroke-width:4px,font-size:28px
-style F fill:#b1c7ff,stroke:#668cff,stroke-width:4px,font-size:28px
-style G fill:#8cd6ff,stroke:#3399ff,stroke-width:4px,font-size:28px
-style H fill:#b3ffb1,stroke:#4caf50,stroke-width:4px,font-size:28px
-```
+<img width="2172" height="337" alt="Mermaid_Workflow_Overview" src="https://github.com/user-attachments/assets/97c375dc-6741-4270-bd9f-888d1e04a809" />
 
 ---
 
