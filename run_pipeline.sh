@@ -11,7 +11,7 @@ echo "Training model..."
 python train_model_full_set.py
 
 echo "Starting Docker containers..."
-docker-compose up -d
+docker compose up -d
 
 echo "Running batch predictions..."
 python batch_predict.py

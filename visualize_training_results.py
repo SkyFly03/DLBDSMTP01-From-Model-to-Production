@@ -1,54 +1,40 @@
 # visualize_training_results.py
-# --------------------------------------------------
-# Example script to extract and plot accuracy and loss
-# from MLflow logs after training is complete.
-# --------------------------------------------------
-
+# ---------------------------------------------------------
+# Visualizes MLflow-logged metrics: training/validation loss & accuracy.
+# ---------------------------------------------------------
 import mlflow
-import pandas as pd
 import matplotlib.pyplot as plt
 
-# Load latest MLflow run (now that mlruns is available)
 client = mlflow.tracking.MlflowClient()
 experiment = client.get_experiment_by_name("Refund_Classifier")
+
+if experiment is None:
+    raise Exception("No MLflow experiment named 'Refund_Classifier' found.")
+
 runs = client.search_runs(experiment.experiment_id)
+latest_run = sorted(runs, key=lambda r: r.start_time, reverse=True)[0]
 
-# Just use the first available run
-run = runs[0]
-run_id = run.info.run_id
+metrics = {"train_loss": [], "val_loss": [], "train_acc": [], "val_acc": []}
+steps = []
 
-# Retrieve metrics
-metrics = client.get_metric_history(run_id, "train_acc")
-train_acc = [m.value for m in metrics]
-train_steps = [m.step for m in metrics]
-
-metrics = client.get_metric_history(run_id, "val_acc")
-val_acc = [m.value for m in metrics]
-
-metrics = client.get_metric_history(run_id, "train_loss")
-train_loss = [m.value for m in metrics]
-
-metrics = client.get_metric_history(run_id, "val_loss")
-val_loss = [m.value for m in metrics]
+for metric in metrics.keys():
+    history = client.get_metric_history(latest_run.info.run_id, metric)
+    history = sorted(history, key=lambda x: x.step)
+    metrics[metric] = [point.value for point in history]
+    if not steps:
+        steps = [point.step for point in history]
 
 # Plot
-plt.figure(figsize=(10, 4))
-
-plt.subplot(1, 2, 1)
-plt.plot(train_steps, train_acc, label="Train Accuracy")
-plt.plot(train_steps, val_acc, label="Val Accuracy")
+plt.figure(figsize=(10, 6))
+plt.plot(steps, metrics["train_acc"], label="Train Accuracy")
+plt.plot(steps, metrics["val_acc"], label="Val Accuracy")
+plt.plot(steps, metrics["train_loss"], label="Train Loss", linestyle="--")
+plt.plot(steps, metrics["val_loss"], label="Val Loss", linestyle="--")
 plt.xlabel("Epoch")
-plt.ylabel("Accuracy")
-plt.title("Accuracy Over Epochs")
+plt.ylabel("Value")
+plt.title("Training Performance (from MLflow)")
 plt.legend()
-
-plt.subplot(1, 2, 2)
-plt.plot(train_steps, train_loss, label="Train Loss")
-plt.plot(train_steps, val_loss, label="Val Loss")
-plt.xlabel("Epoch")
-plt.ylabel("Loss")
-plt.title("Loss Over Epochs")
-plt.legend()
-
+plt.grid(True)
 plt.tight_layout()
-plt.show()
+plt.savefig("model_images/training_metrics.png")
+print("Saved: model_images/training_metrics.png")

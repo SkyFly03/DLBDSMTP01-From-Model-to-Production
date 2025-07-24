@@ -11,8 +11,8 @@ import pandas as pd
 
 # Paths
 CSV_PATH = "data/styles.csv"
-TRAIN_DIR = "data/full/train"
-VAL_DIR = "data/full/val"
+TRAIN_DIR = "data/full/full/train"
+VAL_DIR = "data/full/full/val"
 
 # Read metadata
 df = pd.read_csv(CSV_PATH, on_bad_lines="skip")

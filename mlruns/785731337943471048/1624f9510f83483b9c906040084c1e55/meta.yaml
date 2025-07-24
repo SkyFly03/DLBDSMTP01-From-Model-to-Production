@@ -1,0 +1,14 @@
+artifact_uri: file:///D:/image_refund_classifier/mlruns/785731337943471048/1624f9510f83483b9c906040084c1e55/artifacts
+end_time: 1753311579305
+entry_point_name: ''
+experiment_id: '785731337943471048'
+lifecycle_stage: active
+run_id: 1624f9510f83483b9c906040084c1e55
+run_name: melodic-koi-872
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1753280614133
+status: 3
+tags: []
+user_id: David

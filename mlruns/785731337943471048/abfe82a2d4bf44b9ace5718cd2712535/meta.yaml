@@ -1,0 +1,14 @@
+artifact_uri: file:///D:/image_refund_classifier/mlruns/785731337943471048/abfe82a2d4bf44b9ace5718cd2712535/artifacts
+end_time: null
+entry_point_name: ''
+experiment_id: '785731337943471048'
+lifecycle_stage: active
+run_id: abfe82a2d4bf44b9ace5718cd2712535
+run_name: agreeable-elk-588
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1753386403919
+status: 1
+tags: []
+user_id: David

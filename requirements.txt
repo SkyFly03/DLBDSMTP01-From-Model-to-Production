@@ -10,3 +10,5 @@ mlflow
 matplotlib
 seaborn
 psycopg2-binary
+pip install schedule
+schedule

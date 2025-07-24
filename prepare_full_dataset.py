@@ -9,7 +9,7 @@ import shutil
 import random
 
 SOURCE_DIR = "data/refund_full_set"
-DEST_DIR = "data/full"
+DEST_DIR = "data/full/full/"
 TRAIN_RATIO = 0.8
 
 # Create destination folders
@@ -40,4 +40,4 @@ for category in os.listdir(SOURCE_DIR):
     for img in val_images:
         shutil.copy2(os.path.join(category_path, img), os.path.join(val_path, category, img))
 
-print("Dataset split completed: data/full/train and data/full/val created.")
+print("Dataset split completed: data/full/full/train and data/full/full/val created.")

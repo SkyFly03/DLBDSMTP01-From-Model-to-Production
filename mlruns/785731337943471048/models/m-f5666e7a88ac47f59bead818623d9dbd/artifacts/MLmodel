@@ -1,0 +1,23 @@
+artifact_path: file:///D:/image_refund_classifier/mlruns/785731337943471048/models/m-f5666e7a88ac47f59bead818623d9dbd/artifacts
+flavors:
+  python_function:
+    config:
+      device: null
+    data: data
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.pytorch
+    pickle_module_name: mlflow.pytorch.pickle_module
+    python_version: 3.13.5
+  pytorch:
+    code: null
+    model_data: data
+    pytorch_version: 2.7.1+cpu
+mlflow_version: 3.1.1
+model_id: m-f5666e7a88ac47f59bead818623d9dbd
+model_size_bytes: 94601423
+model_uuid: m-f5666e7a88ac47f59bead818623d9dbd
+prompts: null
+run_id: 1624f9510f83483b9c906040084c1e55
+utc_time_created: '2025-07-23 22:59:08.519857'

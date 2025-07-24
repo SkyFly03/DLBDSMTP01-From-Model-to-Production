@@ -33,3 +33,16 @@ static/
 
 # Ignore large model weight files (tracked with Git LFS or kept locally only)
 refund_classifier_final.pt
+
+# Kaggle metadata file
+data/styles.csv
+
+# Full dataset
+refund_full_set/
+data/full/
+
+# MLflow experiment logs
+mlruns/
+
+# Ignore unused notebooks
+notebooks/image_refund_classifier_metadata.ipynb

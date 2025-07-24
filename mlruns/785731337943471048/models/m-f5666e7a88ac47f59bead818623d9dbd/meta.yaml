@@ -1,0 +1,10 @@
+artifact_location: file:///D:/image_refund_classifier/mlruns/785731337943471048/models/m-f5666e7a88ac47f59bead818623d9dbd/artifacts
+creation_timestamp: 1753311548302
+experiment_id: '785731337943471048'
+last_updated_timestamp: 1753311579265
+model_id: m-f5666e7a88ac47f59bead818623d9dbd
+model_type: null
+name: model
+source_run_id: 1624f9510f83483b9c906040084c1e55
+status: 2
+status_message: null
