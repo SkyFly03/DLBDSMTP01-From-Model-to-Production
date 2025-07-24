@@ -5,34 +5,37 @@
 
 ## **1. Objective**
 
-- This project builds an image classification system to automate the sorting of refund items based on product images.  
-- A ResNet50 model is trained to predict product categories.  
-- The system supports both batch predictions (scheduled daily) and real-time requests via a REST API.  
-- Prediction results are stored in a PostgreSQL database.  
-- The setup is containerized using Docker for reproducibility and deployment.
+The goal of this project is to build a batch-processing image classification system that automatically sorts returned products into predefined categories to support the refund department. This is achieved by:
+
+- Training a deep learning model (ResNet-50) to classify product images into 31 refund categories.
+- Preprocessing the dataset by cleaning missing images and filtering rare classes.
+- Structuring the model pipeline into a batch-based system triggered by a scheduled job.
+- Supporting reproducibility by training the model in both Google Colab (Model 1) and locally via shell script (Model 2).
+- Integrating a REST API (using Flask and Docker) for scalable serving and batch prediction.
+- Logging batch results to PostgreSQL for traceability and system monitoring.
 
 ---
 
 ## **2. Setup and Installation**
 
-### Clone the repository
+* ### Clone the repository
 ```bash
 git clone https://github.com/SkyFly03/DLBDSMTP01-From-Model-to-Production.git
 cd DLBDSMTP01-From-Model-to-Production
 ```
 
-### Create and activate a virtual environment
+* ### Create and activate a virtual environment
 ```bash
 python -m venv venv
 .\venv\Scripts\Activate.ps1
 ```
 
-### Install dependencies
+* ### Install dependencies
 ```bash
 pip install -r requirements.txt
 ```
 
-### Download dataset manually from Kaggle
+* ### Download dataset manually from Kaggle
 - Source: https://www.kaggle.com/datasets/paramaggarwal/fashion-product-images-dataset  
 - Place `styles.csv` in `data/full/`  
 
@@ -42,86 +45,113 @@ data/full/train/     # Training images
 data/full/val/       # Validation images  
 ```
 
-### Prepare dataset
-- `make_full_set.py` — Filters and copies selected images  
-- `prepare_full_dataset.py` — Splits data into train/val  
-- `organize_by_class.py` — Sorts images by label  
-- `sync_class_folders.py` — Ensures consistent category folders
+* ### Prepare dataset
+Use the scripts below to process and organize the dataset before training:
+- `make_full_set.py`, `prepare_full_dataset.py`, `organize_by_class.py`, `sync_class_folders.py`
 
-### Start PostgreSQL and REST API
+* ### Start PostgreSQL and REST API
 ```bash
 docker-compose up -d
 ```
 
-### (Optional) Run test suite
+* ### (Optional) Run test suite
 ```bash
 python -m unittest tests/test_api_predict.py
 ```
-
 ---
 
-## **3. Workflow Overview**
+## **System Workflow – Batch Processing Pipeline**
 <img width="2172" height="337" alt="Mermaid_Workflow_Overview" src="https://github.com/user-attachments/assets/97c375dc-6741-4270-bd9f-888d1e04a809" />
+
+* Images are downloaded, cleaned, structured, and used to train a ResNet-50 model.
+* The trained model is deployed via a REST API and batch predictions are logged to PostgreSQL.
+
+## **3. Data Cleaning and Preparation**
+
+Before training the models, the raw image dataset was processed using the following steps:
+
+- `make_full_set.py`: Filters and copies a subset of product images from the full Kaggle dataset based on selected categories.
+- `prepare_full_dataset.py`: Randomly splits the dataset into training and validation sets with equal distribution.
+- `organize_by_class.py`: Sorts images into class-labeled subdirectories required for PyTorch's `ImageFolder` format.
+- `sync_class_folders.py`: Ensures both `train/` and `val/` folders contain the exact same set of class directories.
+- `check_data.py`: Verifies that all images are accessible and folders are correctly organized.
+- Duplicate or corrupted images are skipped automatically during loading via built-in checks.
 
 ---
 
 ## **4. Model Training and Monitoring**
 
-- `train_model_full_set.py` trains a ResNet50 classifier with learning rate scheduling and early stopping.  
-- Accuracy and loss curves are logged and visualized.  
-- The trained model (`refund_classifier_final.pt`) is excluded from the repository due to file size.  
-- Full training logs and metrics are saved in:  
-  `refund_classifier_training_log.pdf`
+- A ResNet-50 model was trained using two setups: Colab (GPU) and local shell script (CPU) for reproducibility.
+- Training used learning rate scheduling and early stopping.
+- Models are stored as `.pt` files (excluded from GitHub).
+- **Architecture**: Pretrained ResNet-50 with a custom output layer for 31 refund classes.
 
-### Training Progress Output
+### **4.1 Model 1 – Google Colab (GPU)**
 
-The following terminal output shows real-time progress of training the ResNet50 model over 18 epochs:
+- Trained for 18 epochs using Colab Pro GPU runtime
 
-<img width="1700" height="887" alt="training_progress_api_accuracy_loss" src="https://github.com/user-attachments/assets/04da2685-2a8d-4fb4-98e1-ef6ecb379286" />
+### Training Output:
+<img width="1700" height="887" alt="training_progress_Colab" src="https://github.com/user-attachments/assets/014e5c88-157e-4d90-8472-d4dc997c7acb" />
 
+### Training Accuracy and Loss Curve:
+<img width="988" height="390" alt="training_curve_model1_colab" src="https://github.com/user-attachments/assets/5288b93e-2191-4828-90c9-92e0470f38a9" />
 
-### Training Accuracy and Loss Curve
+### Confusion Matrix (Validation – Colab):
+<img width="1129" height="989" alt="confusion_matrix_colab_model" src="https://github.com/user-attachments/assets/983751c0-dc10-4a66-b250-fd5f73e51c1a" />
 
-Generated by `visualize_training_results.py`
+---
 
-![Training Curve](model_images/training_curve_final_model.png)
+### **4.2 Model 2 - Local Shell Script (Docker CPU)**
+
+- Trained for 26 epochs via `run_pipeline.sh` using a containerized CPU environment
+
+### Training Output:
+<img width="344" height="341" alt="training_progress_shell2" src="https://github.com/user-attachments/assets/ceb17613-f369-4575-84bd-7d39f86e96ce" />
+
+### Training Accuracy and Loss Curve:
+<img width="909" height="403" alt="training_curve_model2_shell" src="https://github.com/user-attachments/assets/2be24297-b810-4651-96e4-815119de0abd" />
+
+### Confusion Matrix (Validation – Shell):
+<img width="1200" height="1000" alt="confusion_matrix_shell_model" src="https://github.com/user-attachments/assets/a8991b53-dc53-48b7-abf5-8dbeb465cb43" />
+
+---
+
+### **4.3 Comparison and Evaluation**
+
+|                      | Model 1 – Colab        | Model 2 – Shell Script   |
+|----------------------|------------------------|--------------------------|
+| Train Accuracy       | 0.94                   | 0.977                    |
+| Validation Accuracy  | 0.85                   | 0.86                     |
+| Runtime              | ~1.5 hours (GPU)       | ~6.5 hours (CPU/Docker)  |
+| Deployment Use Case  | Fast prototyping       | Stable batch deployment  |
+
+- Both models achieved stable validation accuracy over 85%, fulfilling the project’s objective.
+- Model 1 is ideal for rapid development and iteration using GPU resources.
+- Model 2 is fully integrated in the system pipeline and better suited for long-term automated batch predictions (e.g., cronjob or nightly runs).
+
 ---
 
 ## **5. Prediction Interfaces**
 
 - `app.py` exposes a REST API (`/predict`) that supports both single and batch image prediction.
 - `batch_predict.py` performs automated classification on new images in batch mode (e.g., nightly schedule).
-- Results are logged in PostgreSQL including filename, predicted class, and timestamp.
+- **Prediction results** (filename, predicted class, and timestamp) are logged into a PostgreSQL database via SQLAlchemy for traceability and future monitoring.
 
 ---
 
-## **6. Visualization**
-
-- `visualize_training_results.py`: Plots training accuracy and loss curves
-- `confusion_matrix_heatmap.py`: Creates a normalized confusion matrix for validation data
-
-### Confusion Matrix (Validation)
-Generated by `confusion_matrix_heatmap.py`
-
-![Confusion Matrix](model_images/confusion_matrix_validation_normalized.png)
-
-Visualizations are also stored in `model_images/` and included in the PDF log.
-
----
-
-## **7. Containerization and Testing**
+## **6. Containerization and Testing**
 
 - `docker-compose.yml`: Runs the API and database in containers  
 - `Dockerfile`: Builds the REST API service  
 - `.env`: Used for environment variables (excluded from GitHub)  
 - `tests/test_api_predict.py`: Unit test to validate the prediction endpoint
 
+
 ### Docker Image Backup
 
-The Docker image used in this project has been successfully saved as a `.tar` archive for reproducibility and redeployment:
+A full Docker image backup (`image_refund_classifier_api.tar`) has been saved locally for reproducibility.
 
 ```text
-File: image_refund_classifier_api.tar
 Location: D:\image_refund_classifier
 Size: ~12 GB (complete Docker image)
 ```
@@ -181,12 +211,5 @@ DLBDSMTP01-From-Model-to-Production/
 ├── sync_class_folders.py          # Ensures train/val contain the same classes
 ├── train_model_full_set.py        # Trains the image classifier and logs to MLflow
 └── visualize_training_results.py  # Generates training accuracy and loss plots
+```
 ---
-
-## **10. Notes**
-
-- Make sure to manually download and place the dataset in the correct folder paths before running any scripts.  
-- Adjust paths in scripts if needed for your environment.  
-- All components are included to reproduce the pipeline, excluding the dataset and final model weights.  
-- Visuals and performance reports can be found in the attached PDF log.
-
