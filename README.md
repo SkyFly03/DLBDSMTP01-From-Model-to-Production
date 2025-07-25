@@ -184,11 +184,15 @@ DLBDSMTP01-From-Model-to-Production/
 │ ├── val/                         # Validation images organized by class
 │ └── styles.csv                   # Metadata from Kaggle dataset
 ├── model_images/                  # All generated plots and screenshots for documentation
-│ ├── confusion_matrix_validation_normalized.png
-│ ├── training_curve_final_model.png
-│ ├── training_progress_api_accuracy.png
-│ ├── training_terminal_output.png
-│ └── docker_container_startup_log.png
+│ ├── confusion_matrix_colab_model.png
+│ ├── confusion_matrix_shell_model.png
+│ ├── training_curve_model1_colab.png
+│ ├── training_curve_model2_shell.png
+│ ├── training_progress_colab.png
+│ ├── training_progress_shell1.png
+│ └── training_progress_shell2.png
+├── notebooks/
+│ └── image_refund_classifier_metadata.ipynb    
 ├── tests/
 │ └── test_api_predict.py          # Unit test for API predictions
 ├── .gitignore                     # Files and folders to ignore in Git version control
@@ -200,13 +204,15 @@ DLBDSMTP01-From-Model-to-Production/
 ├── batch_predict.py               # Batch prediction runner for incoming images
 ├── check_data.py                  # Verifies data structure and image paths
 ├── clean_class_folders.py         # Removes empty or unused folders (optional maintenance)
-├── confusion_matrix_heatmap.py    # Creates evaluation heatmap of validation predictions
+├── confusion_matrix_heatmap1_colab.py # Creates evaluation heatmap of validation predictions - Colab
+├── confusion_matrix_heatmap2_shell.py # Creates evaluation heatmap of validation predictions - Shell
 ├── make_full_set.py               # (optional) Prepares filtered subset from raw Kaggle images
 ├── organize_by_class.py           # Moves images into class-labeled subfolders
 ├── prepare_full_dataset.py        # Splits images into train/val folders
 ├── refund_classifier_training_log.pdf # Final report with plots and performance notes
 ├── refund_classifier_final.pt     # Saved PyTorch model file
 ├── requirements.txt               # Python dependencies for the project
+├── run_pipeline.ps1               # PowerShell script to automate the full local training and evaluation pipeline (Windows)
 ├── run_pipeline.sh                # Shell script to run the full project pipeline
 ├── sync_class_folders.py          # Ensures train/val contain the same classes
 ├── train_model_full_set.py        # Trains the image classifier and logs to MLflow
