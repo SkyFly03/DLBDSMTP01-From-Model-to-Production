@@ -18,7 +18,7 @@ python batch_predict.py
 
 echo "Generating visualizations..."
 python visualize_training_results.py
-python confusion_matrix_heatmap.py
+python confusion_matrix_heatmap2_shell.py
 
 echo "Pipeline complete!"
 
